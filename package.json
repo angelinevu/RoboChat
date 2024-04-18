@@ -2,10 +2,10 @@
   "name": "webchat",
   "version": "1.0.0",
   "description": "WebChat is an instant messaging application.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon backend/server"
   },
   "keywords": [],
   "author": "",

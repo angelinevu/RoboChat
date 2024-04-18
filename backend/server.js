@@ -4,16 +4,16 @@ app.set("view engine", "jsx")
 
 const port = 3000;
 
-app.get("/", (req, res) => {                    // Home Page
-    res.sendFile(__dirname + "/index.html");
+app.get("/", (req, res) => {                    // Login
+    res.sendFile(__dirname + "/frontend/login.html");
 });
 
-app.get("/home", (req, res) => {
-    res.sendFile(__dirname + "/index.html");
+app.get("/chat", (req, res) => {                // Chat pages
+    res.sendFile(__dirname + "/frontend/chat.html")
 });
 
 app.get("*", (req, res) => {                    // Invalid
-    res.status(404).send("404 - Not Found");
+    res.status(404).send(__dirname + "/frontend/404.html");
 });
 
 app.listen(port, "0.0.0.0", () => {             // Local host
