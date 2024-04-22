@@ -1,18 +1,8 @@
 const express = require('express');
-const router = express.Router();
+const route = express.Router();
 
-// Authentication middleware, e.g., passport.js
+//route.post('/signup', signup);
+//route.post('/signin', signin);
+//route.post('/signout', signout);
 
-router.post('/login', (req, res) => {
-    // Handle login logic
-});
-
-router.post('/register', (req, res) => {
-    // Handle registration logic
-});
-
-router.post('/logout', (req, res) => {
-    // Handle logout logic
-});
-
-module.exports = router;
+module.exports = route;
