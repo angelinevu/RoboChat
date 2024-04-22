@@ -1,21 +1,28 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const authRoutes = require('./backend/routes/authRoutes');
+const chatRoutes = require('./backend/routes/chatRoutes');
+const User = require("./backend/models/user")          
+const Chat = require("./backend/models/chat")
+const Message = require("./backend/models/message")
+
 const app = express();
-app.set("view engine", "jsx")
+dotenv.config();
 
-const port = 3000;
+const PORT = process.env.PORT || 3000;
+const MONGO_URL = process.env.MONGO_URL;
 
-app.get("/", (req, res) => {                    // Login
-    res.sendFile(__dirname + "/frontend/login.html");
-});
+//Connect to DB
+mongoose.connect(MONGO_URL).then(() => {     
+    console.log("Database is connected.\n");
 
-app.get("/chat", (req, res) => {                // Chat pages
-    res.sendFile(__dirname + "/frontend/chat.html")
-});
+    //Routes
+    app.use("/", authRoutes);   
+    app.use("/chat", chatRoutes);
 
-app.get("*", (req, res) => {                    // Invalid
-    res.status(404).send(__dirname + "/frontend/404.html");
-});
-
-app.listen(port, "0.0.0.0", () => {             // Local host
-    console.log("Server running at https://localhost:3000/");
-});
+    //Create Server
+    app.listen(PORT, () => {   
+        console.log("Server is listening at port %d", PORT);
+    });
+}).catch((error) => console.log(error));
