@@ -1,12 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const bodyParser = require('body-parser');
 
 //const authRoutes = require("./backend/routes/authRoutes");
 //const chatRoutes = require("./backend/routes/chatRoutes");
 const userRoutes = require("./backend/routes/userRoutes");
 
 const app = express();
+app.use(bodyParser.json());
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;

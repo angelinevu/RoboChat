@@ -1,7 +1,7 @@
 const User = require("../model/userModel.js")
 
 //Create User with UNIQUE email address
-module.exports.create = async(req, res) => {
+module.exports.signup = async(req, res) => {
     try{
         const userData = new User(req.body);    //New user
         const {email} = userData;               //Extract email
@@ -19,18 +19,18 @@ module.exports.create = async(req, res) => {
     }
 };
 
-//Find user by name, email
-module.exports.fetch = async(req, res) => {
+//Find user by name
+module.exports.search = async(req, res) => {
     try {
-        const {email = "", name = ""} = req.body          //Query
-        query.name = name
-        query.email = email
-        const users = await User.find(query);    
-        if (users.length != 0){                 //No users
+        const {name = ""} = req.body;            //Get name
+        const users = await User.find({name});    
+        if (users.length == 0){                 //No users
+            console.log("User not Found.");
             return res.status(404).json({message: "User Not Found."});
         }
-        
-        res.status(200).json(users); 
+
+        console.log(`Users Found: ${users.length}`);
+        return res.status(200).json(users); 
     } catch (error) {
         console.error("Error fetching users:", error);
         res.status(500).json({message: "Internal Server error."});
