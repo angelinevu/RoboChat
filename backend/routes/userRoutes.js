@@ -3,7 +3,9 @@ const route = express.Router();
 
 const controller = require("../controller/userController")
 
-route.post("/signup", controller.signup);
+route.post("/register", controller.register);
+//route.post('/login', login);
+//route.post('/logout', logout);
 route.get("/search", controller.search);
 //route.delete("/delete", controller.delete);
 //route.put("/update", controller.update)

@@ -1,9 +1,10 @@
+const bcryptjs = require("bcryptjs");
 const User = require("../model/userModel.js")
 
 //Create User with UNIQUE email address
-module.exports.signup = async(req, res) => {
+module.exports.register = async(req, res) => {
     try{
-        const userData = new User(req.body);    //New user
+        userData = new User(req.body);    //New user
         const {email} = userData;               //Extract email
 
         const userExist = await User.findOne({email})   //Query
@@ -11,13 +12,19 @@ module.exports.signup = async(req, res) => {
             return res.status(400).json({message: "Email is already in use."});
         }
 
+        //BCRYPT PASSWORD
+        //const {password} = userData
+        //const numSaltRounds = 8;
+        //userData = bcryptjs.hash(password, numSaltRounds);
+
         const savedUser = await userData.save();        //Valid
         res.status(200).json(savedUser);
-
     } catch (error) {
+        console.error("Error creating user:", error);
         res.status(500).json({error: "Internal Server Error."});
     }
 };
+
 
 //Find user by name
 module.exports.search = async(req, res) => {
