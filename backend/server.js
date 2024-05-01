@@ -1,15 +1,22 @@
+//This is the main file for the WebChat program
+//where the the application is set up.
+
 import express from "express"
 import dotenv from "dotenv"
-//const express = require("express")
-//const dotenv = require("dotenv")
 
 import authRoutes from "./routes/authRoutes.js"
+import connectMongoDB from "./db/connectMongoDB.js"
 
-const app = express()
-
-dotenv.config()
+const app = express()               //Variables
 const PORT = process.env.PORT || 3000
 
-app.use("/api/auth", authRoutes)
+dotenv.config()                     //.env config
 
-app.listen(PORT, () => console.log(`Server Running on Port ${PORT}`))
+app.use(express.json())             //json parse req.body 
+
+app.use("/api/auth", authRoutes)    //Route middlewares
+
+app.listen(PORT, () => {            //Start server
+    connectMongoDB()                //Connect to DB
+    console.log(`\nServer Running on Port ${PORT}`)
+})
