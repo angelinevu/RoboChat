@@ -3,8 +3,12 @@
 
 import express from "express"
 import dotenv from "dotenv"
+import cookieParser from "cookie-parser"
 
 import authRoutes from "./routes/authRoutes.js"
+import messageRoutes from "./routes/messageRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
+
 import connectMongoDB from "./db/connectMongoDB.js"
 
 const app = express()               //Variables
@@ -13,8 +17,11 @@ const PORT = process.env.PORT || 3000
 dotenv.config()                     //.env config
 
 app.use(express.json())             //json parse req.body 
+app.use(cookieParser())
 
 app.use("/api/auth", authRoutes)    //Route middlewares
+app.use("/api/messages", messageRoutes)  
+app.use("/api/users", userRoutes)  
 
 app.listen(PORT, () => {            //Start server
     connectMongoDB()                //Connect to DB
