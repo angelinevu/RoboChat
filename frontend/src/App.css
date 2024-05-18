@@ -1,4 +1,17 @@
-#root {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  /* rgb(206, 182, 149); rgba(223, 165, 165, 0.411)*/
+  background: rgba(170, 206, 219, 0.603);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+/*#root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -40,3 +53,4 @@
 .read-the-docs {
   color: #888;
 }
+*/
