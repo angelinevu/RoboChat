@@ -9,7 +9,7 @@ const Message = () => {
               <img alt="Tailwind CSS chat bubble component" src="https://robohash.org/angevu" />
               </div>
           </div>
-          <div className='chat-bubble text-white bg-blue-600'>Hi, what's up?</div>
+          <div className='chat-bubble text-white bg-blue-500'>Hi, what's up?</div>
           {/*<div className='chat-bubble text-white bg-teal-600'>Hi, what's up?</div>*/}
           <div className='chat-footer text-gray-700 text-xs flex gap-1 items-center'>12:00</div>
       </div>
