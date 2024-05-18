@@ -2,9 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
-  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url(../public/bg2.png);
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url(../public/bg.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -16,15 +15,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #555; /* Darker background for the track */
+  /*background: #555; /* Darker background for the track */
+  background: lightgray; /* Darker background for the track */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #121212; /* Dark color for the thumb */
+  background: rgb(83, 83, 83); /* Dark color for the thumb */
   border-radius: 5px; /* Rounded corners for the thumb */
   height: 50px; /* Adjust the height as needed */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2d2d2d; /* Slightly lighter color when hovered */
+  background: #424242; /* Slightly lighter color when hovered */
 }
