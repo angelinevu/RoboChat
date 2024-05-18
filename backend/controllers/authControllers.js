@@ -26,7 +26,7 @@ export const signup = async (req, res) => {
         const salt = await bcrypt.genSalt(10)       //Encrypt password
         const hashedPassword = await bcrypt.hash(password, salt)
 
-        const pic = `https://avatar.iran.liara.run/public?username=${username}`  //Set random PFP
+        const pic = `https://robohash.org/${username}`  //Set random PFP
         const newUser = new User({                                               //Create new user
             email,
             username,
