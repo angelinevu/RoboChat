@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  /* rgb(206, 182, 149); rgba(223, 165, 165, 0.411)*/
+  background: rgba(223, 234, 238, 0.603);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+/* dark mode scrollbar */
+::-webkit-scrollbar {
+  width: 12px; /* Adjust the width as needed */
+}
+
+::-webkit-scrollbar-track {
+  background: #555; /* Darker background for the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #121212; /* Dark color for the thumb */
+  border-radius: 5px; /* Rounded corners for the thumb */
+  height: 50px; /* Adjust the height as needed */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2d2d2d; /* Slightly lighter color when hovered */
+}

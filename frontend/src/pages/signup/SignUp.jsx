@@ -37,6 +37,16 @@ const SignUp = () => {
           </label>
           <input type='text' placeholder='Confirm Password' className='w-full input input-bordered h-10' />
         </div>
+
+      {/* Already have an account*/}
+      <a className='text-gray-600 hover:text-blue-600 mt-2 inline-block' href='m'>
+          Already have an account?
+        </a>
+      {/* Button */}
+      <div>
+        <button className='btn btn-block py-3 px-6 text-lg bg-teal-600 hover:bg-blue-700 text-white mt-3'>Sign Up</button>
+        </div>
+
       </form>
     </div>
   </div>
