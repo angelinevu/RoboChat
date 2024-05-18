@@ -5,7 +5,7 @@
 
 body {
   /* rgb(206, 182, 149); rgba(223, 165, 165, 0.411)*/
-  background: rgba(223, 234, 238, 0.603);
+  background: rgb(206, 182, 149);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
