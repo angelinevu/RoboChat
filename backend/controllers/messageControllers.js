@@ -1,6 +1,11 @@
 import Conversation from "../models/conversationModel.js"
 import Message from "../models/messageModel.js"
 
+//Fix to incorporate group chats: find by conversationID; in turn, conversationID
+//found by participants in chat room
+
+//api/messages/send/:id         //get conversationID
+//api/messages/send/            participants in body, find conversation?
 export const sendMessage = async (req, res) => {
     try {
         const { message } = req.body
@@ -38,6 +43,7 @@ export const sendMessage = async (req, res) => {
     }
 }
 
+//api/messages/:id
 export const getMessages = async (req, res) => {        //View past messages
     try {
         const { id: userToChatId } = req.params
@@ -54,6 +60,25 @@ export const getMessages = async (req, res) => {        //View past messages
         res.status(200).json(messages)
     } catch (error) {
         console.log("Error in getMessages controller: ", error.message)
+        res.status(500).json({ error: "Internal server error" })
+    }
+}
+
+//get conversationID? or find conversation based off participants?
+
+//api/messages/delete/:id
+export const deleteConversation = async (req, res) => {
+    try {
+        const { id: conversationID } = req.params;
+        const result = await Conversation.deleteOne({ _id : conversationID }); 
+
+        if (!result.deletedCount) {
+            return res.status(404).json({ error: "Conversation not found" });
+        }
+
+        res.status(200).json({ message: "Conversation deleted successfully" });
+    } catch (error) {
+        console.log("Error in deleteConversation controller: ", error.message)
         res.status(500).json({ error: "Internal server error" })
     }
 }
