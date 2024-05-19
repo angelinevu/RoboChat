@@ -72,12 +72,15 @@ const SignUp = () => {
         </Link>
       {/* Button */}
       <div>
-        <button className='btn btn-block py-3 px-6 text-lg bg-blue-500 hover:bg-blue-600 text-white mt-3'>Sign Up</button>
-        </div>
-
-      </form>
-    </div>
+        <button className='btn btn-block py-3 px-6 text-lg bg-blue-500 hover:bg-blue-600 text-white mt-3'
+        disabled={loading}
+        >
+          {loading ? <span className='loading loading-spinner'></span> : "Sign Up"}
+        </button>
+      </div>
+    </form>
   </div>
+</div>
 }
 
 export default SignUp
