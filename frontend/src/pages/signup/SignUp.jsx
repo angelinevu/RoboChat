@@ -16,6 +16,7 @@ const SignUp = () => {
     e.preventDefault();
     await signup(inputs)
   }
+
   return <div className= 'flex flex-col items-center justify-center min-w-96 mx-auto'>
     <div className='w-full p-6 rounded-lg shadow-lg bg-white backdrop-blur-lg bg-opacity-80'>
       <h1 className='text-4xl font-semibold text-center text-gray-800'>Sign Up</h1>
@@ -65,7 +66,7 @@ const SignUp = () => {
           />
         </div>
 
-      {/* Already have an account*/}
+      {/* Already have an account */}
       <Link to={'/login'} className='text-gray-600 hover:text-blue-600 mt-2 inline-block' href='m'>
           Already have an account?
         </Link>

@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 
-/* FIX ERROR: Add or remove email for sign up, change fullName to name, or vice versa
-*/
-
 const useSignup = () => {
   const [loading, setLoading] = useState(false);
 
