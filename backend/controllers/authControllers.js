@@ -9,18 +9,14 @@ import generateTokenandSetCookie from "../utils/generateToken.js"
 //**********************************************************************************************************
 export const signup = async (req, res) => {
     try {
-        const { email, username, name, password, confirmPassword } = req.body      //Parse fields
+        const { username, fullName, password, confirmPassword } = req.body      //Parse fields
         if (password != confirmPassword) {                                         //Passwords match?
             return res.status(400).json({ error: "Password fields do not match." })
         }
 
-        const user = await User.findOne({ $or: [{ email }, { username }] });         //Find user for criteria:
+        const user = await User.findOne({ username });         //Find user for criteria:
         if (user) {
-            if (user.email === email) {                                              //Email uniqueness
-                return res.status(400).json({ error: "Email already exists." });
-            } else {                                                                 //Username uniqueness
-                return res.status(400).json({ error: "Username already exists." });
-            }
+            return res.status(400).json({ error: "Username already exists." });
         }
 
         const salt = await bcrypt.genSalt(10)       //Encrypt password
@@ -28,9 +24,8 @@ export const signup = async (req, res) => {
 
         const pic = `https://robohash.org/${username}`  //Set random PFP
         const newUser = new User({                                               //Create new user
-            email,
             username,
-            name,
+            fullName,
             password: hashedPassword,
             pic
         })
@@ -41,7 +36,7 @@ export const signup = async (req, res) => {
             res.status(201).json({                          //Return user data
                 _id: newUser._id,
                 username: newUser.username,
-                name: newUser.name,
+                fullName: newUser.fullName,
                 pic: newUser.pic
             })
         }
@@ -71,7 +66,7 @@ export const signin = async (req, res) => {
         res.status(200).json({                          //Return user data
             _id: user._id,
             username: user.username,
-            name: user.name,
+            fullName: user.fullName,
             pic: user.pic
         })
 
