@@ -2,7 +2,7 @@ import React from 'react'
 
 const Conversation = () => {
   return <>
-  <div className='flex gap-2 items-center hover:bg-teal-600 rounded p-2 py-1 cursor-pointer'>
+  <div className='flex gap-2 items-center hover:bg-blue-500 rounded p-2 py-1 cursor-pointer'>
     <div className='avatar'>
         <div className='w-16 rounded-full bg-gray-800'>
             <img src='https://robohash.org/zainub2' alt='user avatar'/>

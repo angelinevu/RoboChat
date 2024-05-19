@@ -7,11 +7,11 @@ const MessageInput = () => {
       <div className='w-full relative'>
         <input
           type='text'
-          className='border text-sm rounded-lg block w-full p-2.5 bg-gray-900 border-gray-600 text-white'
+          className='border text-sm rounded-lg block w-full p-2.5 bg-gray-800 border-white text-white'
           placeholder='Send a Message'
         />
 
-        <button type='submit' className='absolute inset-y-0 right-0 flex items-center pr-3'>
+        <button type='submit' className='absolute inset-y-0 right-0 flex items-center pr-3 text-white'>
           <BsSend />
         </button>
       </div>
