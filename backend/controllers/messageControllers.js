@@ -1,5 +1,6 @@
 import Conversation from "../models/conversationModel.js"
 import Message from "../models/messageModel.js"
+import { getReceiverSocketID, io } from "../socket/socket.js"
 
 //Fix to incorporate group chats: find by conversationID; in turn, conversationID
 //found by participants in chat room
@@ -32,9 +33,12 @@ export const sendMessage = async (req, res) => {
             conversation.messages.push(newMessage._id)
         }
 
-        //SOCKETIO
-
         await Promise.all([conversation.save(), newMessage.save()]) //Save convo & message in ||
+
+        const receiverSocketID = getReceiverSocketID(receiverID)
+        if (receiverSocketID) {
+            io.to(receiverSocketID).emit("newMessage", newMessage)  //Send event to specific client
+        }
 
         res.status(201).json(newMessage)
     } catch (error) {
