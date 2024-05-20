@@ -7,13 +7,13 @@ const Conversation = ({conversation, lastIdx}) => {
   const isSelected = selectedConversation?._id === conversation._id
 
   return <>
-  <div className={`flex gap-2 items-center hover:bg-gray-300 rounded p-2 py-1 cursor-pointer
-  ${isSelected ? "bg-gray-300": ""}
+  <div className={`flex gap-2 items-center hover:bg-gray-200 rounded p-2 py-1 cursor-pointer
+  ${isSelected ? "bg-gray-200": ""}
   `}
     onClick={() => setSelectedConversation(conversation)}
   >
     <div className='avatar'>
-        <div className='w-16 rounded-full bg-gray-800'>
+        <div className='w-16 rounded-full bg-gray-300'>
             <img 
             src={conversation.pic} 
             alt='user avatar'/>
