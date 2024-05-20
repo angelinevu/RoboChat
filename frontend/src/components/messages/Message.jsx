@@ -1,23 +1,27 @@
-import React from 'react'
-const Message = () => {
-    return (
-      <div className='flex justify-end items-end space-x-2'>
-        <div className='flex flex-col items-end'>
-        <div className='chat chat-end'>
-          <div className='chat-image avatar'>
-              <div className='w-16 rounded-full bg-gray-800'>
-              <img alt="Tailwind CSS chat bubble component" src="https://robohash.org/angevu" />
-              </div>
-          </div>
-          <div className='chat-bubble text-white bg-blue-500'>Hi, what's up?</div>
-          {/*<div className='chat-bubble text-white bg-teal-600'>Hi, what's up?</div>*/}
-          <div className='chat-footer text-gray-700 text-xs flex gap-1 items-center'>12:00</div>
-      </div>
-      </div>
-      </div>
-    );
-  };
-  
-  export default Message;
+import { useAuthContext } from '../../context/AuthContext'
+import useConversation from '../../zustand/useConversation';
 
-  {/* SPECIFIC color: style={{ backgroundColor: 'rgb(128, 61, 59)' }} */}
+const Message = ({ message }) => {
+    const { authUser } = useAuthContext()
+    const { selectedConversation } = useConversation()
+    const fromMe = message.senderID === authUser._id
+    const chatClassName = fromMe ? 'chat-end' : 'chat-start'
+    const profilePic = fromMe ? authUser.pic : selectedConversation?.pic
+    const bubbleBgColor = fromMe ? 'bg-blue-500' : "bg-gray-500"
+
+  return (
+    <div className={`chat ${chatClassName}`}>
+      <div className='chat-image avatar'>
+        <div className='w-10 rounded-full bg-gray-800'>
+          <img alt="Tailwind CSS chat bubble component" src={profilePic} />
+        </div>
+      </div>
+      <div className={`chat-bubble text-white font-mono ${bubbleBgColor}`}>{message.message}</div>
+      <div className='chat-footer text-gray-400 text-xs flex gap-1 items-center font-mono'>12:00</div>
+    </div>
+  );
+};
+
+export default Message;
+
+{/* SPECIFIC color: style={{ backgroundColor: 'rgb(128, 61, 59)' }} */ }

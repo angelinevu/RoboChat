@@ -7,8 +7,8 @@ const Conversation = ({conversation, lastIdx}) => {
   const isSelected = selectedConversation?._id === conversation._id
 
   return <>
-  <div className={`flex gap-2 items-center hover:bg-blue-500 rounded p-2 py-1 cursor-pointer
-  ${isSelected ? "bg-blue-500": ""}
+  <div className={`flex gap-2 items-center hover:bg-gray-300 rounded p-2 py-1 cursor-pointer
+  ${isSelected ? "bg-gray-300": ""}
   `}
     onClick={() => setSelectedConversation(conversation)}
   >
@@ -22,7 +22,7 @@ const Conversation = ({conversation, lastIdx}) => {
 
     <div className='flex flex-col flex-1'>
        <div className='flex flex-col flex-1'>
-        <p className='font-bold text-black'>{conversation.fullName}</p>
+        <p className='font-mono text-gray-700'>{conversation.fullName}</p>   
         </div> 
     </div>
   </div>

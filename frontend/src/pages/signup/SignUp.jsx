@@ -19,7 +19,7 @@ const SignUp = () => {
 
   return <div className= 'flex flex-col items-center justify-center min-w-96 mx-auto'>
     <div className='w-full p-6 rounded-lg shadow-lg bg-white backdrop-blur-lg bg-opacity-80'>
-      <h1 className='text-4xl font-semibold text-center text-gray-800'>Sign Up</h1>
+      <h1 className='text-4xl font-semibold text-center text-gray-800'>RoboChat Sign Up</h1>
 
       <form onSubmit={handleSubmit}>
         {/* Full Name */}
