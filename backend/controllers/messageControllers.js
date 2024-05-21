@@ -67,22 +67,3 @@ export const getMessages = async (req, res) => {        //View past messages
         res.status(500).json({ error: "Internal server error" })
     }
 }
-
-//get conversationID? or find conversation based off participants?
-
-//api/messages/delete/:id
-export const deleteConversation = async (req, res) => {
-    try {
-        const { id: conversationID } = req.params;
-        const result = await Conversation.deleteOne({ _id : conversationID }); 
-
-        if (!result.deletedCount) {
-            return res.status(404).json({ error: "Conversation not found" });
-        }
-
-        res.status(200).json({ message: "Conversation deleted successfully" });
-    } catch (error) {
-        console.log("Error in deleteConversation controller: ", error.message)
-        res.status(500).json({ error: "Internal server error" })
-    }
-}
