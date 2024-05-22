@@ -10,8 +10,8 @@ const Conversation = ({conversation, lastIdx}) => {
   const isOnline = onlineUsers.includes(conversation._id)
 
   return <>
-  <div className={`flex gap-2 items-center hover:bg-gray-200 rounded p-2 py-1 cursor-pointer
-  ${isSelected ? "bg-gray-200": ""}
+  <div className={`flex gap-2 items-center hover:bg-gray-300 rounded p-2 py-1 cursor-pointer
+  ${isSelected ? "bg-gray-300": ""}
   `}
     onClick={() => setSelectedConversation(conversation)}
   >
