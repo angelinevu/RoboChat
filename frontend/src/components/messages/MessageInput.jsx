@@ -20,7 +20,7 @@ const MessageInput = () => {
         <input
           type='text'
           //className='border text-sm rounded-lg block w-full p-2.5 bg-gray-700 text-white'
-          className='border text-sm rounded-lg block w-full border-gray-400 p-2.5'
+          className='font-mono text-sm rounded-lg block w-full border-gray-400 p-2.5 focus:outline-gray-300'
           placeholder='Send a Message'
           value={message}
           onChange={(e) => setMessage(e.target.value)}
