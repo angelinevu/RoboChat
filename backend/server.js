@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser"
 import authRoutes from "./routes/authRoutes.js"
 import messageRoutes from "./routes/messageRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
+import chatRoutes from "./routes/chatRoutes.js"
 
 import connectMongoDB from "./db/connectMongoDB.js"
 import { app, server } from './socket/socket.js'
@@ -20,8 +21,9 @@ app.use(express.json())             //json parse req.body
 app.use(cookieParser())
 
 app.use("/api/auth", authRoutes)    //Route middlewares
-app.use("/api/messages", messageRoutes)  
-app.use("/api/users", userRoutes)  
+app.use("/api/user", userRoutes)  
+app.use("/api/message", messageRoutes)  
+app.use("/api/chat", chatRoutes)  
 
 server.listen(PORT, () => {            //Start server
     connectMongoDB()                //Connect to DB

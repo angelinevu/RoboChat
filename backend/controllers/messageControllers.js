@@ -1,69 +1,52 @@
-import Conversation from "../models/conversationModel.js"
-import Message from "../models/messageModel.js"
-import { getReceiverSocketID, io } from "../socket/socket.js"
+import Message from "../models/messageModel.js";
+import Chat from "../models/chatModel.js";
+import { getReceiverSocketID, io } from "../socket/socket.js";
 
-//Fix to incorporate group chats: find by conversationID; in turn, conversationID
-//found by participants in chat room
-
-//api/messages/send/:id         //get conversationID
-//api/messages/send/            participants in body, find conversation?
+//Send a message to a chat
+//api/message/
 export const sendMessage = async (req, res) => {
-    try {
-        const { message } = req.body
-        const { id: receiverID } = req.params
-        const senderID = req.user._id
+  try {
+    const { content, chatId } = req.body;
 
-        let conversation = await Conversation.findOne({            //Find a conversation
-            participants: { $all: [senderID, receiverID] },
-        })
-
-        if (!conversation) {    //No existing chat room
-            conversation = await Conversation.create({
-                participants: [senderID, receiverID],
-            })
-        }
-
-        const newMessage = new Message({
-            senderID,
-            receiverID,
-            message
-        })
-
-        if (newMessage) {
-            conversation.messages.push(newMessage._id)
-        }
-
-        await Promise.all([conversation.save(), newMessage.save()]) //Save convo & message in ||
-
-        const receiverSocketID = getReceiverSocketID(receiverID)
-        if (receiverSocketID) {
-            io.to(receiverSocketID).emit("newMessage", newMessage)  //Send event to specific client
-        }
-
-        res.status(201).json(newMessage)
-    } catch (error) {
-        console.log("Error in sendMessage controller: ", error.message)
-        res.status(500).json({ error: "Internal server error" })
+    if (!content || !chatId) {
+      console.log("Invalid data passed into sendMessage controller");
+      return res.status(400);
     }
-}
 
-//api/messages/:id
-export const getMessages = async (req, res) => {        //View past messages
-    try {
-        const { id: userToChatId } = req.params
-        const senderId = req.user._id
-        const conversation = await Conversation.findOne({
-            participants: { $all: [senderId, userToChatId] },
-        }).populate("messages")     //Get message contents
+    var newMessage = {
+      sender: req.user._id,
+      content,
+      chat: chatId,
+    };
 
-        if (!conversation)
-            return res.status(200).json([])
+    var message = await Message.create(newMessage);
+    message = await Message.findById(message._id)
+      .populate("sender", "name pic")
+      .populate("chat")
+      .populate({
+        path: "chat.users",
+        select: "name pic",
+      });
 
-        const messages = conversation.messages
+    await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
 
-        res.status(200).json(messages)
-    } catch (error) {
-        console.log("Error in getMessages controller: ", error.message)
-        res.status(500).json({ error: "Internal server error" })
-    }
-}
+    return res.status(201).json(message);
+  } catch (error) {
+    console.log("Error in sendMessage controller: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+//api/message/:chatId
+export const getMessages = async (req, res) => {
+  try {
+    const messages = await Message.find({ chat: req.params.chatId })
+      .populate("sender", "fullName pic")
+      .populate("chat");
+
+    return res.json(messages);
+  } catch (error) {
+    console.log("Error in getMessages controller: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
