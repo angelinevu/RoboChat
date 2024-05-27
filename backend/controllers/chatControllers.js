@@ -1,8 +1,10 @@
 import Chat from "../models/chatModel.js";
+import Message from "../models/messageModel.js";
 import User from "../models/userModel.js";
 
 //access 1-1 chat: send userId JSON
 //api/chat/
+//**********************************************************************************************************
 export const accessChat = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -50,6 +52,7 @@ export const accessChat = async (req, res) => {
 
 //Get chats
 //api/chat/
+//**********************************************************************************************************
 export const fetchChats = async (req, res) => {
   try {
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
@@ -71,6 +74,7 @@ export const fetchChats = async (req, res) => {
 
 //Create a GC of 3+ people
 //api/chat/group
+//**********************************************************************************************************
 export const createGroupChat = async (req, res) => {
   try {
     const { users, name } = req.body;
@@ -78,6 +82,7 @@ export const createGroupChat = async (req, res) => {
       return res.status(400).send({ message: "All fields are required" });
     }
 
+    users.push(req.user._id);
     if (users.length < 2) {
       return res.status(400).send("A group chat must be of 3+ users");
     }
@@ -102,6 +107,7 @@ export const createGroupChat = async (req, res) => {
 
 //Remove a user from GC
 //api/chat/groupremove
+//**********************************************************************************************************
 export const removeFromGroup = async (req, res) => {
   try {
     const { chatId, userId } = req.body;
@@ -129,6 +135,7 @@ export const removeFromGroup = async (req, res) => {
 
 //Add a user to GC
 //api/groupadd/
+//**********************************************************************************************************
 export const addToGroup = async (req, res) => {
   try {
     const { chatId, userId } = req.body;
@@ -156,6 +163,7 @@ export const addToGroup = async (req, res) => {
 
 //Rename a GC
 //api/chat/rename
+//**********************************************************************************************************
 export const renameGroup = async (req, res) => {
   try {
     const { chatId, chatName } = req.body;
@@ -177,6 +185,25 @@ export const renameGroup = async (req, res) => {
     }
   } catch (error) {
     console.log("Error in renameGroup controller: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+//Delete a chat
+//api/chat/delete
+//**********************************************************************************************************
+export const deleteChat = async (req, res) => {
+  try {
+    const { chatId } = req.body;
+    const result = await Chat.findByIdAndDelete(chatId);
+
+    if (result) {
+      await Message.deleteMany({ chat: chatId });
+      return res.status(200).json({ message: "Successfully deleted" });
+    }
+    return res.status(404).json({ message: "Conversation not found" });
+  } catch (error) {
+    console.log("Error in deleteChat controller: ", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 };

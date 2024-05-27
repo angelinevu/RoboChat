@@ -1,9 +1,10 @@
 import Message from "../models/messageModel.js";
 import Chat from "../models/chatModel.js";
-import { getReceiverSocketID, io } from "../socket/socket.js";
+//import { getReceiverSocketID, io } from "../socket/socket.js";
 
 //Send a message to a chat
 //api/message/
+//**********************************************************************************************************
 export const sendMessage = async (req, res) => {
   try {
     const { content, chatId } = req.body;
@@ -37,7 +38,9 @@ export const sendMessage = async (req, res) => {
   }
 };
 
+//Retrieve messages
 //api/message/:chatId
+//**********************************************************************************************************
 export const getMessages = async (req, res) => {
   try {
     const messages = await Message.find({ chat: req.params.chatId })
