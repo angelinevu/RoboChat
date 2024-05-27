@@ -4,7 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthContextProvider } from './context/AuthContext.jsx'
-import { SocketContextProvider } from './context/SocketContext.jsx'
+{/*import { SocketContextProvider } from './context/SocketContext.jsx'*/}
 import { ChakraProvider } from '@chakra-ui/react'
 import theme from './theme'; 
 
@@ -14,9 +14,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ChakraProvider theme={theme}>
         <BrowserRouter>
           <AuthContextProvider>
-            <SocketContextProvider>
+            {/*<SocketContextProvider>*/}
               <App />
-            </SocketContextProvider>
+            {/*</SocketContextProvider>*/}
           </AuthContextProvider>
         </BrowserRouter>
       </ChakraProvider>

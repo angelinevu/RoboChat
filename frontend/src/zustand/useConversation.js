@@ -1,18 +1,21 @@
-import {create} from "zustand"
+import { create } from "zustand";
+
+//Creates a global state for a selected conversation
+
+// ***Angeline's version***
+//setSelectedConversation sets selectedConversation
+//setMessages sets messages within selectedConversation
+const useConversation = create((set) => ({
+  selectedConversation: null,
+  setSelectedConversation: (selectedConversation) =>
+    set({ selectedConversation }),
+  messages: [],
+  setMessages: (messages) => set({ messages }),
+}));
+
+export default useConversation;
 
 /*const useConversation = create((set) => ({
-    selectedConversation: null,
-    setSelectedConversation: (selectedConversation) => set ({selectedConversation}),
-    messages:[],
-    setMessages: (messages) => set({messages}),
-
-}))
-
-export default useConversation
-
-import { create } from "zustand";*/
-
-const useConversation = create((set) => ({
   selectedConversation: null,
   setSelectedConversation: (selectedConversation) => set({ selectedConversation }),
   messages: [],
@@ -25,4 +28,4 @@ const useConversation = create((set) => ({
   setChats: (chats) => set({ chats }),
 }));
 
-export default useConversation;
+export default useConversation;*/

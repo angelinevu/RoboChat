@@ -7,6 +7,7 @@ import { useAuthContext } from '../../context/AuthContext';
 
 const MessageContainer = () => {
   const { selectedConversation, setSelectedConversation } = useConversation()
+  const {authUser} = useAuthContext()
 
   useEffect(() => {
     // cleanup function 
@@ -23,7 +24,12 @@ const MessageContainer = () => {
           {/*<div className='bg-slate-200 px-4 py-2 mb-2'>*/}
           <div className='px-4 py-2 mb-2'>
             <span className='label-text text-gray-800 font-mono'>To: </span>
-            <span className='text-gray-800 font-mono'> {selectedConversation.fullName}</span>
+            {/*<span className='text-gray-800 font-mono'> {selectedConversation.isGroupChat ? selectedConversation.chatName : "name"}</span>*/}
+            <span className='text-gray-800 font-mono'> {!selectedConversation.isGroupChat 
+  ? (authUser._id === selectedConversation.users[0]._id 
+    ? selectedConversation.users[1].fullName 
+    : selectedConversation.users[0].fullName) 
+  : selectedConversation.chatName}</span>
           </div>
           <Messages />
           <MessageInput />

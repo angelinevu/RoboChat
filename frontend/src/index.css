@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* DO WE NEED THIS ANYMORE (vs THEME.JS?) 
+/* DO WE NEED THIS ANYMORE (vs THEME.JS?) */
 
-body {
+/* body {
   background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url(/bg.png);
   background-repeat: no-repeat;
   background-size: cover;
