@@ -4,6 +4,7 @@ import { MdOutlineGroup } from "react-icons/md";
 import useConversation from '../../zustand/useConversation'
 import useGetConversation from '../../hooks/useGetConversations'
 import toast from 'react-hot-toast'
+import GroupChatModal from '../modals/GroupChatModal'
 
 const SearchInput = () => {
   const [search, setSearch] = useState("")
@@ -33,9 +34,13 @@ const SearchInput = () => {
       <button type='submit' className='btn btn-circle bg-blue-500 text-white'>
         <IoSearchSharp className='w-6 h-6 outline-none' />
       </button>
-      <button type='submit' className='btn btn-circle bg-green-500 text-white'>
-        <MdOutlineGroup className='w-6 h-6 outline-none' />
-      </button>
+
+      {/* Group Chat Button */}
+      <GroupChatModal>
+        <button type='submit' className='btn btn-circle bg-green-500 text-white'>
+          <MdOutlineGroup className='w-6 h-6 outline-none' />
+        </button>
+      </GroupChatModal>
     </form>
   );
 };

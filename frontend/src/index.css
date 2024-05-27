@@ -2,12 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* DO WE NEED THIS ANYMORE (vs THEME.JS?) 
+
 body {
   background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url(/bg.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-}
+} */
 
 /* dark mode scrollbar */
 ::-webkit-scrollbar {
@@ -58,4 +60,4 @@ body {
 	60% {
 		transform: translate3d(4px, 0, 0);
 	}
-}
+}  
