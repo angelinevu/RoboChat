@@ -1,10 +1,12 @@
 import { create } from "zustand";
+import { useAuthContext } from "../context/AuthContext";
 
 //Creates a global state for a selected conversation
 
 // ***Angeline's version***
 //setSelectedConversation sets selectedConversation
 //setMessages sets messages within selectedConversation
+/*
 const useConversation = create((set) => ({
   selectedConversation: null,
   setSelectedConversation: (selectedConversation) =>
@@ -12,15 +14,17 @@ const useConversation = create((set) => ({
   messages: [],
   setMessages: (messages) => set({ messages }),
 }));
-
 export default useConversation;
+*/
 
-/*const useConversation = create((set) => ({
+const useConversation = create((set) => ({
   selectedConversation: null,
-  setSelectedConversation: (selectedConversation) => set({ selectedConversation }),
+  setSelectedConversation: (selectedConversation) =>
+    set({ selectedConversation }),
   messages: [],
   setMessages: (messages) => set({ messages }),
-  user: JSON.parse(localStorage.getItem('userInfo')) || null,
+  //user: JSON.parse(localStorage.getItem("userInfo")) || null,
+  user: JSON.parse(localStorage.getItem("chat-user")) || null,
   setUser: (user) => set({ user }),
   notification: [],
   setNotification: (notification) => set({ notification }),
@@ -28,4 +32,4 @@ export default useConversation;
   setChats: (chats) => set({ chats }),
 }));
 
-export default useConversation;*/
+export default useConversation;

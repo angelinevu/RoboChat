@@ -1,8 +1,13 @@
-import {Modal,ModalOverlay,ModalContent,ModalHeader,ModalFooter,ModalBody,ModalCloseButton,
-  Button,useDisclosure,FormControl,Input,useToast,Box,} from "@chakra-ui/react";
+import {
+  Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
+  Button, useDisclosure, FormControl, Input, useToast, Box,
+  Circle
+} from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import useConversation from "../../zustand/useConversation";
+import { FaPlus } from "react-icons/fa6";
+//import UserListItem from "./UserListItem";
 import toast from 'react-hot-toast'
 
 const GroupChatModal = ({ children }) => {
@@ -44,14 +49,14 @@ const GroupChatModal = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axios.get(`/api/user/${search}`, config);
       console.log(data);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
-        description: "Failed to Load the Search Results",
+        title: "Error Occurred",
+        description: "Failed to load the search results",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -67,7 +72,7 @@ const GroupChatModal = ({ children }) => {
   const handleSubmit = async () => {
     if (!groupChatName || !selectedUsers) {
       toast({
-        title: "Please fill all the feilds",
+        title: "Please fill all the fields",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -117,29 +122,39 @@ const GroupChatModal = ({ children }) => {
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg="#F2F2F2">
           <ModalHeader
             fontSize="35px"
-            fontFamily="Work sans"
+            fontFamily="Roboto, sans-serif"
             d="flex"
             justifyContent="center"
+            textAlign="center"
           >
             Create Group Chat
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody d="flex" flexDir="column" alignItems="center">
+          <ModalBody
+            d="flex"
+            flexDir="column"
+            alignItems="center"
+            fontFamily="Courier New, monospace"
+          >
             <FormControl>
               <Input
                 placeholder="Chat Name"
                 mb={3}
                 onChange={(e) => setGroupChatName(e.target.value)}
+                fontFamily="Courier New, monospace"
+                bg="white"
               />
             </FormControl>
             <FormControl>
               <Input
                 placeholder="Add Users"
-                mb={1}
+                //mb={1}
                 onChange={(e) => handleSearch(e.target.value)}
+                fontFamily="Courier New, monospace"
+                bg="white"
               />
             </FormControl>
             <Box w="100%" d="flex" flexWrap="wrap">
@@ -148,33 +163,54 @@ const GroupChatModal = ({ children }) => {
                   key={u._id}
                   user={u}
                   handleFunction={() => handleDelete(u)}
+                  fontFamily="Courier New, monospace"
                 />
               ))}
             </Box>
             {loading ? (
               // <ChatLoading />
-              <div>Loading...</div>
+              <div style={{ color: "#5a5a5a" }}>Loading...</div>
             ) : (
               searchResult
                 ?.slice(0, 4)
                 .map((user) => (
-                  <UserListItem
+                  {/*<UserListItem
                     key={user._id}
                     user={user}
                     handleFunction={() => handleGroup(user)}
-                  />
+                    fontFamily="Roboto, sans-serif"
+                /> */}
                 ))
             )}
           </ModalBody>
-          <ModalFooter>
-            <Button onClick={handleSubmit} colorScheme="blue">
+          <ModalFooter mt={-2}>
+            <Circle
+              as="button"
+              onClick={handleSubmit}
+              bg="blue.500"
+              _hover={{
+                bg: "gray.300",
+                transition: "background-color 0.1s ease-in-out"
+              }}
+              boxSize={12}
+              textColor={"white"}
+              fontSize={22}
+            >
+              <FaPlus />
+            </Circle>
+            {/*<Button onClick={handleSubmit} 
+            colorScheme="blue"
+              _hover={{ backgroundColor: "gray.200" }}
+            >
               Create Chat
             </Button>
+          */}
           </ModalFooter>
         </ModalContent>
       </Modal>
     </>
   );
 };
+
 
 export default GroupChatModal;
