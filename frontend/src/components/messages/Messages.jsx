@@ -11,24 +11,24 @@ const Messages = () => {
 
   useEffect(() => {
     setTimeout(() => {
-    lastMessageRef.current?.scrollIntoView({behavior: "smooth"})  //instant scroll
+      lastMessageRef.current?.scrollIntoView({ behavior: "smooth" })  //instant scroll
     }, 100)
   }, [messages])
 
   return (
     <div className='px-4 flex-1 overflow-auto'>
-      {!loading && 
-      messages.length > 0 && 
-      messages.map((message) => (
-        <div key={message._id}
-          ref={lastMessageRef}>
-          <Message message={message} />
-        </div>
-      ))}
+      {!loading &&
+        messages.length > 0 &&
+        messages.map((message) => (
+          <div key={message._id}
+            ref={lastMessageRef}>
+            <Message message={message} />
+          </div>
+        ))}
       {loading && [...Array(3)].map((_, idx) => <MessageSkeleton key={idx} />)}
 
       {!loading && messages.length === 0 && (
-        <p className='text-center font-mono'>Send a message to start the conversation.</p>
+        <p className='text-center'>Send a message to start the conversation.</p>
       )}
     </div>
   )

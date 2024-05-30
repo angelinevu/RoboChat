@@ -30,8 +30,7 @@ const Conversation = ({ conversation, lastIdx }) => {
   }
 
   //Correct chat PFPs and names
-  //const link = `https://avatar.iran.liara.run/username?username=${conversation.chatName}`
-  const link = `https://cdn.discordapp.com/attachments/1212522441868312607/1244537957759848458/image.png?ex=665579cb&is=6654284b&hm=01b736bfbba3f72747c5a7cefe4a3c986f6791ed4742334cfc0484de71cdf3c5&`
+  const link = `https://cdn.discordapp.com/attachments/1212522441868312607/1244548696243437650/image.png?ex=66562c8b&is=6654db0b&hm=aa9fd98451c23e7365910da2762a04194325e934f0a651ff108d7034f40f517d&`
   let name = null
   let pic = null
   if (!conversation.isGroupChat) {
@@ -60,13 +59,16 @@ const Conversation = ({ conversation, lastIdx }) => {
         <div className={`w-16 rounded-full ${isSelected ? "bg-gray-400" : "bg-gray-300"}`}>
           <img
             src={pic}
-            alt='user avatar' />
+            alt='user avatar'
+          />
+
         </div>
       </div>
 
       <div className='flex flex-col flex-1'>
         <div className='flex flex-col flex-1'>
-          <p className='font-mono text-gray-700'>{name}</p>
+          {/*<p className='font-mono text-gray-700'>{name}</p>*/}
+          <p className='text-gray-700'>{name}</p>
         </div>
       </div>
       {isSelected && <IoMdClose onClick={handleDelete} />}
