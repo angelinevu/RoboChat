@@ -23,7 +23,6 @@ const useConversation = create((set) => ({
     set({ selectedConversation }),
   messages: [],
   setMessages: (messages) => set({ messages }),
-  //user: JSON.parse(localStorage.getItem("userInfo")) || null,
   user: JSON.parse(localStorage.getItem("chat-user")) || null,
   setUser: (user) => set({ user }),
   notification: [],

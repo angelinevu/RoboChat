@@ -10,32 +10,13 @@ import toast from 'react-hot-toast'
 import { useAuthContext } from "../../context/AuthContext";
 import useGetUser from "../../hooks/useGetUsers";
 
-const GroupChatModal = ({ children }) => {
+const ChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  //const [groupChatName, setGroupChatName] = useState();
   //const [selectedUsers, setSelectedUsers] = useState([]);
   //const [search, setSearch] = useState("");
   //const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-
-  //Create tentative group of users
-  /*
-  const handleGroup = (userToAdd) => {
-    if (selectedUsers.includes(userToAdd)) {
-      toast({
-        title: "User already added",
-        status: "warning",
-        duration: 5000,
-        isClosable: true,
-        position: "top",
-      });
-      return;
-    }
-
-    setSelectedUsers([...selectedUsers, userToAdd]);
-  };
-  */
 
   //Search for user
   const handleSearch = async (query) => {
@@ -60,13 +41,6 @@ const GroupChatModal = ({ children }) => {
     }
   };
 
-  //Delete user from list
-  /*
-  const handleDelete = (delUser) => {
-    setSelectedUsers(selectedUsers.filter((sel) => sel._id !== delUser._id));
-  };
-  */
-
   const handleSubmit = async () => {
     /*
     if (!groupChatName || !selectedUsers) {
@@ -86,7 +60,7 @@ const GroupChatModal = ({ children }) => {
       //setChats([data, ...chats]);
       //onClose();
       toast({
-        title: "New Group Chat Created!",
+        title: "New Chat Created!",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -124,25 +98,18 @@ const GroupChatModal = ({ children }) => {
             justifyContent="center"
             textAlign="center"
           >
-            Create Group Chat
+            Create Chat
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody
             d="flex"
             flexDir="column"
             alignItems="center"
+          //fontFamily="Courier New, monospace"
           >
             <FormControl>
               <Input
-                placeholder="Chat Name"
-                mb={3}
-                //onChange={(e) => setGroupChatName(e.target.value)}
-                bg="white"
-              />
-            </FormControl>
-            <FormControl>
-              <Input
-                placeholder="Add Users by Username"
+                placeholder="Username"
                 //mb={1}
                 onChange={(e) => handleSearch(e.target.value)}
                 //fontFamily="Courier New, monospace"
@@ -205,4 +172,4 @@ const GroupChatModal = ({ children }) => {
 };
 
 
-export default GroupChatModal;
+export default ChatModal;

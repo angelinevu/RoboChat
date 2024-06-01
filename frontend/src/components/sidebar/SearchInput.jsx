@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { IoSearchSharp } from 'react-icons/io5';
-import { MdOutlineGroup } from "react-icons/md";
+import { MdGroup } from "react-icons/md";
+import { IoChatboxEllipses } from "react-icons/io5";
 import useConversation from '../../zustand/useConversation'
 import useGetConversation from '../../hooks/useGetConversations'
 import toast from 'react-hot-toast'
 import GroupChatModal from '../modals/GroupChatModal'
-//import ChatModal from '../modals/ChatModal'
+import ChatModal from '../modals/ChatModal';
 import { useAuthContext } from '../../context/AuthContext';
 
 const SearchInput = () => {
@@ -43,21 +44,29 @@ const SearchInput = () => {
       <input
         type='text'
         placeholder='Search Chats'
-        //className='font-mono input input-bordered rounded-full text-lg px-1 py-2'
-        className="font-mono input input-bordered rounded-full text-lg px--2 py-2"
+        //className='input input-bordered rounded-full text-lg px-1 py-2'
+        className="input input-bordered rounded-full text-lg px-0 py-2"
 
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        style={{ width: '200px', paddingLeft: '20px' }}
       //style={{ textAlign: 'center' }}
       />
       <button type='submit' className='btn btn-circle bg-blue-500 text-white'>
         <IoSearchSharp className='w-6 h-6 outline-none' />
       </button>
 
+      {/* 1-1 Chat Button */}
+      <ChatModal>
+        <button type='button' className='btn btn-circle bg-green-500 text-white'>
+          <IoChatboxEllipses className='w-6 h-6 outline-none' />
+        </button>
+      </ChatModal>
+
       {/* Group Chat Button */}
       <GroupChatModal>
         <button type='button' className='btn btn-circle bg-green-500 text-white'>
-          <MdOutlineGroup className='w-6 h-6 outline-none' />
+          <MdGroup className='w-6 h-6 outline-none' />
         </button>
       </GroupChatModal>
     </form>
