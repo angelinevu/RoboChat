@@ -1,34 +1,34 @@
-//import { useState } from "react";
-//import { useAuthContext } from "../context/AuthContext";
+import { useState } from "react";
 import toast from "react-hot-toast";
-import { useAuthContext } from "../context/AuthContext";
 
-const useGetUser = (search) => {
-  //const [loading, setLoading] = useState(false);
+const useGetUser = () => {
+  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState(null); // State to store fetched user data
 
-  const getUser = async () => {
-    //setLoading(true);
+  const getUser = async (search, callback) => {
+    setLoading(true);
     try {
       const res = await fetch(`/api/user/${search}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
-
-      const data = await res.json();
-      if (data.error) {
-        throw new Error(data.error);
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("Error response from server:", errorData);
+        throw new Error(errorData.message || "Failed to fetch user data");
       }
+      const data = await res.json();
+      setUserData(data);
 
-      return data; // Return the fetched data
+      if (callback) callback(data);
     } catch (error) {
       toast.error(error.message);
-      return null; // Return null if an error occurs
     } finally {
-      //setLoading(false);
+      setLoading(false);
     }
   };
 
-  return { getUser };
+  return { loading, userData, getUser };
 };
 
 export default useGetUser;

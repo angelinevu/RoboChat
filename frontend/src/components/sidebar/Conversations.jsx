@@ -4,7 +4,7 @@ import useGetConversations from '../../hooks/useGetConversations';
 const Conversations = () => {
   const { loading, conversations } = useGetConversations();
   console.log("Conversations: ", conversations)
-  
+
   //Get each conversations
   return (
     <div className='py-2 flex flex-col overflow-auto'>

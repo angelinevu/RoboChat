@@ -17,8 +17,10 @@ import axios from "axios";
 import { useState } from "react";
 //import { ChatState } from "../../Context/ChatProvider";
 import useConversation from "../../zustand/useConversation";
-//import UserBadgeItem from "../userAvatar/UserBadgeItem";
-//import UserListItem from "../userAvatar/UserListItem";
+import { FaPlus } from "react-icons/fa6";
+import toast from 'react-hot-toast'
+import { useAuthContext } from "../../context/AuthContext";
+//import useGetUser from "../../hooks/useGetUsers";
 
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

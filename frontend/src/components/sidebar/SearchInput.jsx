@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 import GroupChatModal from '../modals/GroupChatModal'
 import ChatModal from '../modals/ChatModal';
 import { useAuthContext } from '../../context/AuthContext';
+import { set } from 'mongoose';
 
 const SearchInput = () => {
   const [search, setSearch] = useState("")
@@ -35,9 +36,12 @@ const SearchInput = () => {
       setSelectedConversation(conversation)
       setSearch("")
     }
-    else toast.error("No user found", {
-      position: "bottom-left"
-    })
+    else {
+      toast.error("No chat found", {
+        position: "bottom-left"
+      })
+      setSearch("")
+    }
   }
   return (
     <form onSubmit={handleSubmit} className='flex items-center gap-3'>
