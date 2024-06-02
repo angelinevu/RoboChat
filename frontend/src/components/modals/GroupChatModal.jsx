@@ -8,7 +8,7 @@ import useConversation from "../../zustand/useConversation";
 import { FaPlus } from "react-icons/fa6";
 import toast from 'react-hot-toast'
 import { useAuthContext } from "../../context/AuthContext";
-import useGetUser from "../../hooks/useGetUsers";
+//import useGetUser from "../../hooks/useGetUsers";
 
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

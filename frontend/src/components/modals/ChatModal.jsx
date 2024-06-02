@@ -4,85 +4,71 @@ import {
   Circle
 } from "@chakra-ui/react";
 import { useState } from "react";
-import useConversation from "../../zustand/useConversation";
 import { FaPlus } from "react-icons/fa6";
 import toast from 'react-hot-toast'
-import { useAuthContext } from "../../context/AuthContext";
 import useGetUser from "../../hooks/useGetUsers";
+import useAccessChat from "../../hooks/useAccessChat";
+import useConversation from "../../zustand/useConversation";
 
 const ChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  //const [selectedUsers, setSelectedUsers] = useState([]);
-  //const [search, setSearch] = useState("");
-  //const [searchResult, setSearchResult] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { userData, getUser } = useGetUser();
+  const { chat, accessChat } = useAccessChat()
+  const { selectedConversation, setSelectedConversation } = useConversation()
+  const [searchQuery, setSearchQuery] = useState("")
   const toast = useToast();
 
-  //Search for user
-  const handleSearch = async (query) => {
-    if (!query) {
-      return;
-    }
-
-    try {
-      const res = await useGetUsers(query)
-      console.log(res);
-      setLoading(false);
-      setSearchResult(data);
-    } catch (error) {
+  const handleSubmit = () => {
+    if (searchQuery === "") {
       toast({
-        title: "Error Occurred",
-        description: "Failed to load the search results",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom-left",
-      })
-    }
-  };
-
-  const handleSubmit = async () => {
-    /*
-    if (!groupChatName || !selectedUsers) {
-      toast({
-        title: "Please fill all the fields",
-        status: "warning",
-        duration: 5000,
-        isClosable: true,
-        position: "top",
-      });
-      return;
-    }
-    */
-
-    try {
-      //api/chat/group
-      //setChats([data, ...chats]);
-      //onClose();
-      toast({
-        title: "New Chat Created!",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-
-    } catch (error) {
-      toast({
-        title: "Failed to Create the Chat!",
-        description: error.response.data,
+        title: "Field Required",
         status: "error",
         duration: 5000,
         isClosable: true,
         position: "bottom",
       });
-    } finally {
-      onClose()
-      setTimeout(function () {
-        location.reload();
-      }, 500);
+      return
     }
+    getUser(searchQuery, async (fetchedUserData) => {
+      //console.log("right after getUser", fetchedUserData);
+      if (fetchedUserData) {
+        try {
+          const fetchedChat = await accessChat(fetchedUserData); // Assuming accessChat returns a promise
+          setSelectedConversation(fetchedChat);
+          //onClose()
+          //setSearchQuery("")
+          await setTimeout(() => {      //Short term solution
+            window.location.reload();
+          }, 200);
+          toast({
+            title: "Chat Available",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom",
+          });
+        } catch (error) {
+          console.error("Error accessing chat:", error);
+          toast({
+            title: "Error accessing chat",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom",
+          });
+        }
+      } else {
+        toast({
+          title: "No user found",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+        });
+      }
+    });
   };
+
 
   return (
     <>
@@ -105,42 +91,17 @@ const ChatModal = ({ children }) => {
             d="flex"
             flexDir="column"
             alignItems="center"
-          //fontFamily="Courier New, monospace"
           >
             <FormControl>
               <Input
                 placeholder="Username"
-                //mb={1}
-                onChange={(e) => handleSearch(e.target.value)}
-                //fontFamily="Courier New, monospace"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 bg="white"
               />
             </FormControl>
             <Box w="100%" d="flex" flexWrap="wrap">
-              {/*selectedUsers.map((u) => (
-                <UserBadgeItem
-                  key={u._id}
-                  user={u}
-                  handleFunction={() => handleDelete(u)}
-                  fontFamily="Courier New, monospace"
-                />
-              ))*/}
             </Box>
-            {/*loading ? (
-              // <ChatLoading />
-              <div style={{ color: "#5a5a5a" }}>Loading...</div>
-            ) : (
-              searchResult
-                ?.slice(0, 4)
-                .map((user) => (
-                  {/*<UserListItem
-                    key={user._id}
-                    user={user}
-                    handleFunction={() => handleGroup(user)}
-                    fontFamily="Roboto, sans-serif"
-                /> }
-                ))
-            )*/}
           </ModalBody>
           <ModalFooter mt={-2}>
             <Circle
@@ -157,19 +118,11 @@ const ChatModal = ({ children }) => {
             >
               <FaPlus />
             </Circle>
-            {/*<Button onClick={handleSubmit} 
-            colorScheme="blue"
-              _hover={{ backgroundColor: "gray.200" }}
-            >
-              Create Chat
-            </Button>
-          */}
           </ModalFooter>
         </ModalContent>
       </Modal>
     </>
   );
 };
-
 
 export default ChatModal;

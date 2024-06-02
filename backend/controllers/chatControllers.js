@@ -12,6 +12,11 @@ export const accessChat = async (req, res) => {
       console.log("UserId param not to accessChat controller");
       return res.sendStatus(400);
     }
+    const userExists = await User.findById(userId);
+    if (!userExists) {
+      console.log("UserId does not exist");
+      return res.status(404).json({ error: "User not found" });
+    }
 
     var isChat = await Chat.find({
       isGroupChat: false,

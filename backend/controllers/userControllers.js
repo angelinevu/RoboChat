@@ -22,15 +22,15 @@ export const getUsers = async (req, res) => {
 };
 */
 
-//Get exact match of username
+//Get exact match of username; gets ID
 export const getUsers = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
 
-    const filteredUsers = await User.find({
+    const filteredUsers = await User.findOne({
       _id: { $ne: loggedInUserId },
       username: req.params.search,
-    }).select("-password");
+    }).select("_id");
 
     return res.status(200).json(filteredUsers);
   } catch (error) {
