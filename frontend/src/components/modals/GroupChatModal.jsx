@@ -1,26 +1,36 @@
 import {
-  Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
-  Button, useDisclosure, FormControl, Input, useToast, Box,
-  Circle
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
+  FormControl,
+  Input,
+  useToast,
+  Box,
 } from "@chakra-ui/react";
+import axios from "axios";
 import { useState } from "react";
+//import { ChatState } from "../../Context/ChatProvider";
 import useConversation from "../../zustand/useConversation";
-import { FaPlus } from "react-icons/fa6";
-import toast from 'react-hot-toast'
-import { useAuthContext } from "../../context/AuthContext";
-import useGetUser from "../../hooks/useGetUsers";
+//import UserBadgeItem from "../userAvatar/UserBadgeItem";
+//import UserListItem from "../userAvatar/UserListItem";
 
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  //const [groupChatName, setGroupChatName] = useState();
-  //const [selectedUsers, setSelectedUsers] = useState([]);
-  //const [search, setSearch] = useState("");
-  //const [searchResult, setSearchResult] = useState([]);
+  const [groupChatName, setGroupChatName] = useState();
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  //Create tentative group of users
-  /*
+  const { user, chats, setChats } = useConversation();
+
   const handleGroup = (userToAdd) => {
     if (selectedUsers.includes(userToAdd)) {
       toast({
@@ -35,43 +45,44 @@ const GroupChatModal = ({ children }) => {
 
     setSelectedUsers([...selectedUsers, userToAdd]);
   };
-  */
 
-  //Search for user
   const handleSearch = async (query) => {
+    setSearch(query);
     if (!query) {
       return;
     }
 
     try {
-      const res = await useGetUsers(query)
-      console.log(res);
+      setLoading(true);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      console.log(data);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "Error Occurred",
-        description: "Failed to load the search results",
+        title: "Error Occured!",
+        description: "Failed to Load the Search Results",
         status: "error",
         duration: 5000,
         isClosable: true,
         position: "bottom-left",
-      })
+      });
     }
   };
 
-  //Delete user from list
-  /*
   const handleDelete = (delUser) => {
     setSelectedUsers(selectedUsers.filter((sel) => sel._id !== delUser._id));
   };
-  */
 
   const handleSubmit = async () => {
-    /*
     if (!groupChatName || !selectedUsers) {
       toast({
-        title: "Please fill all the fields",
+        title: "Please fill all the feilds",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -79,12 +90,23 @@ const GroupChatModal = ({ children }) => {
       });
       return;
     }
-    */
 
     try {
-      //api/chat/group
-      //setChats([data, ...chats]);
-      //onClose();
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        `/api/chat/group`,
+        {
+          name: groupChatName,
+          users: JSON.stringify(selectedUsers.map((u) => u._id)),
+        },
+        config
+      );
+      setChats([data, ...chats]);
+      onClose();
       toast({
         title: "New Group Chat Created!",
         status: "success",
@@ -92,7 +114,6 @@ const GroupChatModal = ({ children }) => {
         isClosable: true,
         position: "bottom",
       });
-
     } catch (error) {
       toast({
         title: "Failed to Create the Chat!",
@@ -102,11 +123,6 @@ const GroupChatModal = ({ children }) => {
         isClosable: true,
         position: "bottom",
       });
-    } finally {
-      onClose()
-      setTimeout(function () {
-        location.reload();
-      }, 500);
     }
   };
 
@@ -116,93 +132,64 @@ const GroupChatModal = ({ children }) => {
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent bg="#F2F2F2">
+        <ModalContent>
           <ModalHeader
             fontSize="35px"
-            fontFamily="Roboto, sans-serif"
+            fontFamily="Work sans"
             d="flex"
             justifyContent="center"
-            textAlign="center"
           >
             Create Group Chat
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody
-            d="flex"
-            flexDir="column"
-            alignItems="center"
-          >
+          <ModalBody d="flex" flexDir="column" alignItems="center">
             <FormControl>
               <Input
                 placeholder="Chat Name"
                 mb={3}
-                //onChange={(e) => setGroupChatName(e.target.value)}
-                bg="white"
+                onChange={(e) => setGroupChatName(e.target.value)}
               />
             </FormControl>
             <FormControl>
               <Input
-                placeholder="Add Users by Username"
-                //mb={1}
+                placeholder="Add Users eg: John, Piyush, Jane"
+                mb={1}
                 onChange={(e) => handleSearch(e.target.value)}
-                //fontFamily="Courier New, monospace"
-                bg="white"
               />
             </FormControl>
             <Box w="100%" d="flex" flexWrap="wrap">
-              {/*selectedUsers.map((u) => (
+              {selectedUsers.map((u) => (
                 <UserBadgeItem
                   key={u._id}
                   user={u}
                   handleFunction={() => handleDelete(u)}
-                  fontFamily="Courier New, monospace"
                 />
-              ))*/}
+              ))}
             </Box>
-            {/*loading ? (
+            {loading ? (
               // <ChatLoading />
-              <div style={{ color: "#5a5a5a" }}>Loading...</div>
+              <div>Loading...</div>
             ) : (
               searchResult
                 ?.slice(0, 4)
                 .map((user) => (
-                  {/*<UserListItem
+                  <UserListItem
                     key={user._id}
                     user={user}
                     handleFunction={() => handleGroup(user)}
-                    fontFamily="Roboto, sans-serif"
-                /> }
+                  />
                 ))
-            )*/}
+            )}
           </ModalBody>
-          <ModalFooter mt={-2}>
-            <Circle
-              as="button"
-              onClick={handleSubmit}
-              bg="blue.500"
-              _hover={{
-                bg: "gray.300",
-                transition: "background-color 0.1s ease-in-out"
-              }}
-              boxSize={12}
-              textColor={"white"}
-              fontSize={22}
-            >
-              <FaPlus />
-            </Circle>
-            {/*<Button onClick={handleSubmit} 
-            colorScheme="blue"
-              _hover={{ backgroundColor: "gray.200" }}
-            >
+          <ModalFooter>
+            <Button onClick={handleSubmit} colorScheme="blue">
               Create Chat
             </Button>
-          */}
           </ModalFooter>
         </ModalContent>
       </Modal>
     </>
   );
 };
-
 
 export default GroupChatModal;
