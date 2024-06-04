@@ -30,7 +30,7 @@ export const getUsers = async (req, res) => {
     const filteredUsers = await User.findOne({
       _id: { $ne: loggedInUserId },
       username: req.params.search,
-    }).select("_id");
+    }).select("-password");
 
     return res.status(200).json(filteredUsers);
   } catch (error) {
