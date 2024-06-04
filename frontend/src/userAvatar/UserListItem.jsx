@@ -1,5 +1,5 @@
 import { Avatar } from "@chakra-ui/avatar";
-import { Box, Text } from "@chakra-ui/layout";
+import { Flex, Box, Text } from "@chakra-ui/layout";
 
 const UserListItem = ({ user, handleFunction }) => {
   return (
@@ -20,16 +20,18 @@ const UserListItem = ({ user, handleFunction }) => {
       mb={2}
       borderRadius="lg"
     >
-      <Avatar
-        mr={2}
-        size="sm"
-        cursor="pointer"
-        name={user.fullName}
-        src={user.pic}
-      />
-      <Box>
-        <Text>{user.fullName}</Text>
-      </Box>
+      <Flex align="center">
+        <Avatar
+          mr={2}
+          size="sm"
+          cursor="pointer"
+          name={user.fullName}
+          src={user.pic}
+        />
+        <Box>
+          <Text>{user.fullName}</Text>
+        </Box>
+      </Flex >
     </Box>
   );
 };
