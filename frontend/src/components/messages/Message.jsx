@@ -1,5 +1,6 @@
 import { extractTime } from '../../../utils/extractTime';
 import { useAuthContext } from '../../context/AuthContext'
+import useListenMessages from '../../hooks/useListenMessages';
 //import useConversation from '../../zustand/useConversation';
 
 const Message = ({ message }) => {
@@ -11,6 +12,8 @@ const Message = ({ message }) => {
   const bubbleBgColor = fromMe ? 'bg-blue-500' : "bg-gray-500"
   const formattedTime = extractTime(message.createdAt)
   const shakeClass = message.shouldShake ? "shake" : ""
+
+  useListenMessages();
 
   return (
     <div className={`chat ${chatClassName}`}>

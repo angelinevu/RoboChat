@@ -11,16 +11,17 @@ export const sendMessage = async (req, res) => {
 
     if (!content || !chatId) {
       console.log("Invalid data passed into sendMessage controller");
-      return res.status(400);
+      return res.status(400).send("Invalid data");
     }
 
-    var newMessage = {
+    // Create new message
+    let newMessage = {
       sender: req.user._id,
       content,
       chat: chatId,
     };
 
-    var message = await Message.create(newMessage);
+    let message = await Message.create(newMessage);
     message = await Message.findById(message._id)
       .populate("sender", "name pic")
       .populate("chat")
@@ -29,15 +30,28 @@ export const sendMessage = async (req, res) => {
         select: "name pic",
       });
 
-    /******************************************/
-    const receiverSocketID = getReceiverSocketID(req.body.chatId);
-    console.log("controller chatId: ", req.body.chatId);
-    if (receiverSocketID) {
-      io.to(receiverSocketID).emit("newMessage", newMessage); //Send event to specific client
+    // Find the chat and its users
+    const chat = await Chat.findOne({ _id: chatId }).select("users");
+    if (!chat) {
+      console.log("Chat not found");
+      return res.status(404).send("Chat not found");
     }
-    /******************************************/
 
-    await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
+    // Emit the message to all users in the chat except the sender
+    chat.users.forEach((user) => {
+      if (user._id.toString() !== req.user._id.toString()) {
+        const receiverSocketID = getReceiverSocketID(user._id.toString());
+        console.log("socketid: ", receiverSocketID);
+        if (receiverSocketID) {
+          io.to(receiverSocketID).emit("newMessage", message); // Send event to specific client
+        }
+      }
+    });
+
+    // Update the latest message in the chat
+    await Chat.findByIdAndUpdate(chatId, { latestMessage: message });
+
+    // Return the message
     return res.status(201).json(message);
   } catch (error) {
     console.log("Error in sendMessage controller: ", error.message);

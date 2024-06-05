@@ -7,20 +7,15 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5000"], //Frontend
-    methods: ["GET", "POST"],
+    origin: ["http://localhost:5000"], // Frontend
   },
 });
 
-/******************************************/
-export const getReceiverSocketID = (chatId) => {
-  const receiverId = chatId.users;
-  console.log("chatId:", chatId);
+const userSocketMap = {}; // {userId: socketId}
+
+export const getReceiverSocketID = (receiverId) => {
   return userSocketMap[receiverId];
 };
-/******************************************/
-
-const userSocketMap = {}; // {userId: socketId}
 
 io.on("connection", (socket) => {
   console.log("a user connected", socket.id);
@@ -28,10 +23,10 @@ io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
   if (userId != "undefined") userSocketMap[userId] = socket.id;
 
-  //Send events to all the connected clients
+  // Send events to all the connected clients
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
-  //Listen to the events
+  // Listen to the events
   socket.on("disconnect", () => {
     console.log("user disconnected", socket.id);
     delete userSocketMap[userId];
