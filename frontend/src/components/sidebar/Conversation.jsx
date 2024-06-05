@@ -1,7 +1,7 @@
 import React from 'react'
 import useConversation from '../../zustand/useConversation'
 import { useAuthContext } from '../../context/AuthContext'
-//import { useSocketContext } from '../../context/SocketContext'
+import { useSocketContext } from '../../context/SocketContext'
 
 import { IoMdClose } from "react-icons/io";
 import useGetConversations from '../../hooks/useGetConversations';
@@ -10,6 +10,18 @@ const Conversation = ({ conversation, lastIdx }) => {
   const { selectedConversation, setSelectedConversation } = useConversation()
   const { authUser } = useAuthContext()
   const isSelected = selectedConversation?._id === conversation._id
+
+  const { onlineUsers } = useSocketContext()    //Online users
+
+  /*******************************************/
+  console.log("online users: ", onlineUsers)
+  /*******************************************/
+
+  let isOnline = conversation.users.some(user => {
+    return onlineUsers.includes(user._id) && user._id !== authUser._id;
+  });
+  if (conversation.isGroupChat)
+    isOnline = null
 
   const handleDelete = async () => {
     try {
@@ -55,8 +67,8 @@ const Conversation = ({ conversation, lastIdx }) => {
   `}
       onClick={() => setSelectedConversation(conversation)}
     >
-      {/*<div className={`avatar ${isOnline ? "online" : ""}`}>*/}
-      <div className="avatar">
+      <div className={`avatar ${isOnline ? "online" : ""}`}>
+        {/*<div className="avatar">*/}
         <div className={`w-16 rounded-full ${isSelected ? "bg-gray-400" : "bg-gray-300"}`}>
           <img
             src={pic}

@@ -1,6 +1,6 @@
 import Message from "../models/messageModel.js";
 import Chat from "../models/chatModel.js";
-//import { getReceiverSocketID, io } from "../socket/socket.js";
+import { getReceiverSocketID, io } from "../socket/socket.js";
 
 //Send a message to a chat
 //api/message/
@@ -29,8 +29,15 @@ export const sendMessage = async (req, res) => {
         select: "name pic",
       });
 
-    await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
+    /******************************************/
+    const receiverSocketID = getReceiverSocketID(req.body.chatId);
+    console.log("controller chatId: ", req.body.chatId);
+    if (receiverSocketID) {
+      io.to(receiverSocketID).emit("newMessage", newMessage); //Send event to specific client
+    }
+    /******************************************/
 
+    await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
     return res.status(201).json(message);
   } catch (error) {
     console.log("Error in sendMessage controller: ", error.message);
