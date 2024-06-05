@@ -1,23 +1,27 @@
 import { CloseIcon } from "@chakra-ui/icons";
-import { Badge } from "@chakra-ui/layout";
+import { Badge, Box } from "@chakra-ui/react";
 
 const UserBadgeItem = ({ user, handleFunction, admin }) => {
   return (
     <Badge
-      px={2}
+      px={2}  
       py={1}
       borderRadius="lg"
       m={1}
       mb={2}
       variant="solid"
       fontSize={12}
-      colorScheme="grey"
+      colorScheme="gray"  
       cursor="pointer"
+      display="inline-flex"  
+      alignItems="center" 
       onClick={handleFunction}
     >
-      {user.name}
-      {admin === user._id && <span> (Admin)</span>}
-      <CloseIcon pl={1} />
+      <Box flex="1" mr={2}> 
+        {user.fullName}
+        {admin === user._id && <span> (Admin)</span>}
+      </Box>
+      <CloseIcon /> 
     </Badge>
   );
 };
