@@ -6,7 +6,6 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Button,
   useDisclosure,
   FormControl,
   Input,
@@ -17,6 +16,7 @@ import {
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import UserListItem from "../../userAvatar/UserListItem"; 
+import UserBadgeItem from "../../userAvatar/UserBadgeItem"; 
 import useGetUser from "../../hooks/useGetUsers"; 
 import useCreateGroupChat from "../../hooks/useCreateGroupChat"; 
 
@@ -43,7 +43,7 @@ const GroupChatModal = ({ children }) => {
       return;
     }
     try {
-      const res = await createGroupChat(selectedUsers.map((u) => u._id), groupChatName);
+      await createGroupChat(selectedUsers.map((u) => u._id), groupChatName);
       onClose();
       toast({
         title: "New Group Chat Created!",
@@ -68,6 +68,10 @@ const GroupChatModal = ({ children }) => {
     }
   };
 
+  const handleDelete = (delUser) => {
+    setSelectedUsers(selectedUsers.filter((sel) => sel._id !== delUser._id));
+  };
+
   const handleSearch = async () => {
     if (!searchQuery) {
       setSearchResult([]);
@@ -89,11 +93,6 @@ const GroupChatModal = ({ children }) => {
         });
       }
     });
-  };
-
-  // not working
-  const handleDelete = (delUser) => {
-    setSelectedUsers(selectedUsers.filter((sel) => sel._id !== delUser._id));
   };
   
   const handleGroup = (userToAdd) => {
@@ -160,25 +159,21 @@ const GroupChatModal = ({ children }) => {
                 bg="white"
               />
             </FormControl>
-            <Box w="100%" d="flex" flexWrap="wrap"></Box>
-              {/* {selectedUsers.map((u) => (
+            <Box w="100%" d="flex" flexWrap="wrap">
+              {selectedUsers.map((u) => (
                 <UserBadgeItem
                   key={u._id}
                   user={u}
                   handleFunction={() => handleDelete(u)}
                 />
-              ))} */}
+              ))}
+            </Box>
             {loading && <div>Loading...</div>}
             {searchResult.map((user) => (
               <Box key={user._id} mb={2}>
                 <UserListItem user={user} handleFunction={() => handleGroup(user)} />
               </Box>
             ))}
-            <Box>
-              {selectedUsers.map((user) => (
-                <div key={user._id}>{user.username}</div>
-              ))}
-            </Box>
           </ModalBody>
           <ModalFooter mt={-2}>
             <Circle
