@@ -1,6 +1,7 @@
 import Chat from "../models/chatModel.js";
 import Message from "../models/messageModel.js";
 import User from "../models/userModel.js";
+import { getReceiverSocketID, io } from "../socket/socket.js";
 
 //access 1-1 chat: send userId JSON
 //api/chat/
@@ -47,6 +48,18 @@ export const accessChat = async (req, res) => {
         "users",
         "-password"
       );
+
+      console.log("fullchat: ", FullChat);
+      //Socket
+      FullChat.users.forEach((user) => {
+        if (user._id.toString()) {
+          const receiverSocketID = getReceiverSocketID(user._id.toString());
+          if (receiverSocketID) {
+            console.log("receivers in controller: ", receiverSocketID);
+            io.to(receiverSocketID).emit("newChat", fullChat); // Send event to specific client
+          }
+        }
+      });
       res.status(200).json(FullChat);
     }
   } catch (error) {
@@ -200,10 +213,20 @@ export const renameGroup = async (req, res) => {
 export const deleteChat = async (req, res) => {
   try {
     const { chatId } = req.body;
-    const result = await Chat.findByIdAndDelete(chatId);
+    const result = await Chat.findByIdAndDelete(chatId).select("users");
 
     if (result) {
       await Message.deleteMany({ chat: chatId });
+      //socket
+      result.users.forEach((user) => {
+        if (user._id.toString()) {
+          const receiverSocketID = getReceiverSocketID(user._id.toString());
+          if (receiverSocketID) {
+            //console.log("receivers in controller: ", receiverSocketID);
+            io.to(receiverSocketID).emit("delChat", chatId); // Send event to specific client
+          }
+        }
+      });
       return res.status(200).json({ message: "Successfully deleted" });
     }
     return res.status(404).json({ message: "Conversation not found" });

@@ -2,6 +2,9 @@ import React from 'react'
 import useConversation from '../../zustand/useConversation'
 import { useAuthContext } from '../../context/AuthContext'
 import { useSocketContext } from '../../context/SocketContext'
+//import useListenChats from '../../hooks/useListenChats'
+
+import useDeleteChat from '../../hooks/useDeleteChat'
 
 import { IoMdClose } from "react-icons/io";
 import useGetConversations from '../../hooks/useGetConversations';
@@ -10,12 +13,11 @@ const Conversation = ({ conversation, lastIdx }) => {
   const { selectedConversation, setSelectedConversation } = useConversation()
   const { authUser } = useAuthContext()
   const isSelected = selectedConversation?._id === conversation._id
-
   const { onlineUsers } = useSocketContext()    //Online users
+  const { deleteChat } = useDeleteChat()
 
-  /*******************************************/
-  console.log("online users: ", onlineUsers)
-  /*******************************************/
+  //useListenChats()
+  //console.log("conversation: ", conversation)
 
   let isOnline = conversation.users.some(user => {
     return onlineUsers.includes(user._id) && user._id !== authUser._id;
@@ -25,24 +27,15 @@ const Conversation = ({ conversation, lastIdx }) => {
 
   const handleDelete = async () => {
     try {
-      const res = await fetch("/api/chat/delete", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chatId: selectedConversation._id })
-      });
-
+      await deleteChat(selectedConversation._id)
       //Rough solution...
-      if (res.ok) {
-        window.location.reload();
-      }
-
+      //window.location.reload();
     } catch (error) {
       console.error('Error in handleDelete function', error);
     }
   }
 
   //Correct chat PFPs and names
-  //const link = `https://cdn.discordapp.com/attachments/1212522441868312607/1244548696243437650/image.png?ex=66562c8b&is=6654db0b&hm=aa9fd98451c23e7365910da2762a04194325e934f0a651ff108d7034f40f517d&`
   const link = `https://avatar.iran.liara.run/username?username=${conversation.chatName}&length=1`
   let name = null
   let pic = null

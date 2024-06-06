@@ -13,7 +13,7 @@ const Message = ({ message }) => {
   const formattedTime = extractTime(message.createdAt)
   const shakeClass = message.shouldShake ? "shake" : ""
 
-  useListenMessages();
+  //useListenMessages();
 
   return (
     <div className={`chat ${chatClassName}`}>

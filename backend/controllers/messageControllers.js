@@ -41,13 +41,12 @@ export const sendMessage = async (req, res) => {
     chat.users.forEach((user) => {
       if (user._id.toString() !== req.user._id.toString()) {
         const receiverSocketID = getReceiverSocketID(user._id.toString());
-        console.log("socketid: ", receiverSocketID);
+        console.log("socketId controller: ", receiverSocketID);
         if (receiverSocketID) {
-          io.to(receiverSocketID).emit("newMessage", message); // Send event to specific client
+          io.to(receiverSocketID).emit("newMessage", message, chat._id); // Send event to specific client
         }
       }
     });
-
     // Update the latest message in the chat
     await Chat.findByIdAndUpdate(chatId, { latestMessage: message });
 

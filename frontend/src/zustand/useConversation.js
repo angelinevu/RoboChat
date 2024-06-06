@@ -25,8 +25,8 @@ const useConversation = create((set) => ({
   setMessages: (messages) => set({ messages }),
   user: JSON.parse(localStorage.getItem("chat-user")) || null,
   setUser: (user) => set({ user }),
-  chats: [],
-  setChats: (chats) => set({ chats }),
+  //chats: [],
+  //setChats: (chats) => set({ chats }),
 }));
 
 export default useConversation;

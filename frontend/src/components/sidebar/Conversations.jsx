@@ -1,9 +1,12 @@
 import Conversation from './Conversation';
 import useGetConversations from '../../hooks/useGetConversations';
+import useListenChats from '../../hooks/useListenChats';
 
 const Conversations = () => {
   const { loading, conversations } = useGetConversations();
   console.log("Conversations: ", conversations)
+
+  useListenChats()
 
   //Get each conversations
   return (
