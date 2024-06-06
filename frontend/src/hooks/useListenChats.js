@@ -16,7 +16,7 @@ const useListenChats = () => {
     // Listen for deleted chats
     socket?.on("delChat", (delChatId) => {
       // Filter out the deleted chat from the chats array
-      setConversations(conversations.filter((c) => c._id !== delChatId));
+      //setConversations(conversations.filter((c) => c._id !== delChatId));
       location.reload();
       //setConversations((prevConversations) =>
       //  prevConversations.filter((c) => c._id !== delChatId)

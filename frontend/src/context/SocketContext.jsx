@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useAuthContext } from "./AuthContext";
-//import useGetConversations from "./useGetConversations";
+import useGetConversations from "../hooks/useGetConversations";
 
 import io from "socket.io-client";
 
@@ -13,6 +13,8 @@ export const useSocketContext = () => {
 export const SocketContextProvider = ({ children }) => {
 	const [socket, setSocket] = useState(null);
 	const [onlineUsers, setOnlineUsers] = useState([]);
+	const { conversations, setConversations } = useGetConversations();
+
 	const [messages, setMessages] = useState([]);
 
 	const { authUser } = useAuthContext();
@@ -37,11 +39,12 @@ export const SocketContextProvider = ({ children }) => {
 			});
 
 			socket.on("newChat", (chat) => {
-				setChats((prevChats) => [...prevChats, chat]);
+				setConversations((prevChats) => [...prevChats, chat]);
 			});
 
-			socket.on("delChat", (chat) => {
-				setChats((prevChats) => [...prevChats, chat]);
+			socket.on("delChat", (chatId) => {
+				setConversations((prevConversations) =>
+					prevConversations.filter((c) => c._id !== chatId))
 			});
 
 			return () => {
