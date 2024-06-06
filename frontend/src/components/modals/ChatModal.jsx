@@ -79,10 +79,11 @@ const ChatModal = ({ children }) => {
         <ModalContent bg="#F2F2F2">
           <ModalHeader
             fontSize="35px"
-            fontFamily="Roboto, sans-serif"
+            //fontFamily="Roboto, sans-serif"
             d="flex"
             justifyContent="center"
             textAlign="center"
+          //style={{ fontWeight: "600" }}
           >
             Create Chat
           </ModalHeader>

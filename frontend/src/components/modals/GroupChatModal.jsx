@@ -15,10 +15,10 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
-import UserListItem from "../../userAvatar/UserListItem"; 
-import UserBadgeItem from "../../userAvatar/UserBadgeItem"; 
-import useGetUser from "../../hooks/useGetUsers"; 
-import useCreateGroupChat from "../../hooks/useCreateGroupChat"; 
+import UserListItem from "../../userAvatar/UserListItem";
+import UserBadgeItem from "../../userAvatar/UserBadgeItem";
+import useGetUser from "../../hooks/useGetUsers";
+import useCreateGroupChat from "../../hooks/useCreateGroupChat";
 
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -94,7 +94,7 @@ const GroupChatModal = ({ children }) => {
       }
     });
   };
-  
+
   const handleGroup = (userToAdd) => {
     if (selectedUsers.some((user) => user._id === userToAdd._id)) {
       toast({
@@ -114,12 +114,12 @@ const GroupChatModal = ({ children }) => {
         position: "bottom",
       });
     }
-  
+
     setSelectedUsers([...selectedUsers, userToAdd]);
     setSearchQuery(""); // Clear the search query after adding the user
     setSearchResult([]); // Clear the search result after adding the user
   };
-  
+
   return (
     <>
       <span onClick={onOpen}>{children}</span>
@@ -129,7 +129,7 @@ const GroupChatModal = ({ children }) => {
         <ModalContent bg="#F2F2F2">
           <ModalHeader
             fontSize="35px"
-            fontFamily="Roboto, sans-serif"
+            //fontFamily="Roboto, sans-serif"
             d="flex"
             justifyContent="center"
             textAlign="center"
