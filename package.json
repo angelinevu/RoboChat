@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "main": "server.js",
     "scripts": {
-        "start": "nodemon backend/server",
+        "start": "node backend/server",
+        "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
         "test": "jest",
         "test:auth": "jest testing/authControllers.test.js",
         "test:chat": "jest testing/chatControllers.test.js",
