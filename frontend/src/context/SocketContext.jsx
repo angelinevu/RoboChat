@@ -21,7 +21,8 @@ export const SocketContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (authUser) {
-			const socket = io("http://localhost:3000", { // Backend port
+			//const socket = io("http://localhost:3000", { // Backend port
+			const socket = io("https://webchat-e96e.onrender.com/", { // Backend port
 				query: {
 					userId: authUser._id,
 				},
