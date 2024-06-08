@@ -11,7 +11,7 @@ export const sendMessage = async (req, res) => {
 
     if (!content || !chatId) {
       console.log("Invalid data passed into sendMessage controller");
-      return res.status(400).send("Invalid data");
+      return res.status(400).json({ error: "Invalid data" });
     }
 
     // Create new message
