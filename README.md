@@ -10,6 +10,12 @@ The project follows a test-driven development approach, with unit tests covering
 
 Challenges:
 
+Extra features:
+New Message Notification Audio
+New Message Shake
+Online Status Icon
+Automatic Scroll
+
 WebChat is not currently deployed.
 Run the Application:
 Start the backend server: npm start
