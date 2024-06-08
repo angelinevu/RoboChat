@@ -11,12 +11,12 @@ export const accessChat = async (req, res) => {
     const { userId } = req.body;
     if (!userId) {
       console.log("UserId param not to accessChat controller");
-      return res.sendStatus(400);
+      res.status(400);
     }
     const userExists = await User.findById(userId);
     if (!userExists) {
       console.log("UserId does not exist");
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "User ID is missing" });
     }
 
     var isChat = await Chat.find({
@@ -97,7 +97,7 @@ export const createGroupChat = async (req, res) => {
   try {
     const { users, name } = req.body;
     if (!users || !name) {
-      return res.status(400).send({ message: "All fields are required" });
+      return res.status(400).json({ message: "All fields are required" });
     }
 
     users.push(req.user._id);
@@ -213,6 +213,10 @@ export const renameGroup = async (req, res) => {
 export const deleteChat = async (req, res) => {
   try {
     const { chatId } = req.body;
+    if (!chatId) {
+      return res.status(400).json({ message: "Chat ID is required" });
+    }
+
     const result = await Chat.findByIdAndDelete(chatId).select("users");
 
     if (result) {

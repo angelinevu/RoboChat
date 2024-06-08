@@ -3,7 +3,15 @@
     "version": "1.0.0",
     "main": "server.js",
     "scripts": {
-        "start": "nodemon backend/server"
+        "start": "nodemon backend/server",
+        "test": "jest",
+        "test:auth": "jest testing/authControllers.test.js",
+        "test:chat": "jest testing/chatControllers.test.js",
+        "test:message": "jest testing/messageControllers.test.js",
+        "test:user": "jest testing/userControllers.test.js",
+        "test:unit": "jest testing/frontend/unit/chatMessage.test.js",
+        "test:login": "jest testing/frontend/auth.test.js"
+
     },
     "type": "module",
     "keywords": [],

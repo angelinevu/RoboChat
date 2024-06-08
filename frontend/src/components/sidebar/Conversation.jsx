@@ -37,6 +37,8 @@ const Conversation = ({ conversation, lastIdx }) => {
 
   //Correct chat PFPs and names
   const link = `https://avatar.iran.liara.run/username?username=${conversation.chatName}&length=1`
+  //const link = `https://ui-avatars.com/api/?name=${conversation.chatName}&color=FFFFFF`
+  //const link = `https://avatar.oxro.io/avatar.svg?name=${conversation.chatName}&caps=1&length=1&background=375771`
   let name = null
   let pic = null
   if (!conversation.isGroupChat) {

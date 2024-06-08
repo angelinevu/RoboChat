@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render } from '@testing-library/react';
-import Message from '../src/components/messages/Message';
+import Message from '../../frontend/src/components/messages/Message';
 
 // Mock the useAuthContext hook
 jest.mock('../src/context/AuthContext', () => ({
