@@ -25,7 +25,9 @@ In addition to the core functionalities, we implemented several extra features t
 - Online Status Icon: Users' online status is indicated with an icon, allowing them to see the availability of other users in real-time.
 - Automatic Scroll: The chat interface automatically scrolls to the latest message, ensuring users always stay updated with the latest conversations.
 
-Deployment: WebChat is deployed and accessible online. You can access the deployed application by following the link: https://webchat-e96e.onrender.com/login
+Deployment: WebChat is deployed and accessible online. You can access the deployed application by following the link below: 
+
+https://webchat-e96e.onrender.com/login
 
 Running the Application:
 
@@ -33,14 +35,13 @@ To run the WebChat application locally, follow these steps:
 
 Clone the Repository: 
 Use the following command to clone the repository to your local machine:
+
 git clone git@github.com:angelinevu/WebChat.git
 
-Install Dependencies: Navigate to the project directory and install the necessary dependencies for both the frontend and backend:
+Install Dependencies: Navigate to the project directory and install the necessary dependencies for both the frontend and backend.
 
-cd WebChat
-npm install
-cd frontend
-npm install
 Start the backend server: npm start
+
 Start the frontend server: npm run dev
+
 Open your web browser and navigate to http://localhost:5000/.
