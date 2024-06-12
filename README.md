@@ -25,7 +25,9 @@ In addition to the core functionalities, we implemented several extra features t
 - Online Status Icon: Users' online status is indicated with an icon, allowing them to see the availability of other users in real-time.
 - Automatic Scroll: The chat interface automatically scrolls to the latest message, ensuring users always stay updated with the latest conversations.
 
-Deployment: WebChat is deployed and accessible online. You can access the deployed application by following the link below: 
+Deployment: 
+
+WebChat is deployed and accessible online. You can access the deployed application by following the link below: 
 
 https://webchat-e96e.onrender.com/login
 
